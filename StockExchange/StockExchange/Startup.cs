@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,19 @@ namespace StockExchange
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+=======
+﻿using Microsoft.Owin;
+using Owin;
+
+[assembly: OwinStartupAttribute(typeof(StockExchange.Startup))]
+namespace StockExchange
+{
+    public partial class Startup
+    {
+        public void Configuration(IAppBuilder app)
+        {
+            ConfigureAuth(app);
+>>>>>>> 50aab336b9c455806c6a3725494884ed39824dc1
         }
     }
 }
