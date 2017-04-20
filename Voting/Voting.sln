@@ -7,6 +7,8 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "Voting", "Voting\Voting.sfp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingService", "VotingService\VotingService.csproj", "{50E563B8-B7CF-45E8-9A0A-296B1776CD1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingState", "VotingState\VotingState.csproj", "{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,6 +25,10 @@ Global
 		{50E563B8-B7CF-45E8-9A0A-296B1776CD1A}.Debug|x64.Build.0 = Debug|x64
 		{50E563B8-B7CF-45E8-9A0A-296B1776CD1A}.Release|x64.ActiveCfg = Release|x64
 		{50E563B8-B7CF-45E8-9A0A-296B1776CD1A}.Release|x64.Build.0 = Release|x64
+		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Debug|x64.ActiveCfg = Debug|x64
+		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Debug|x64.Build.0 = Debug|x64
+		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Release|x64.ActiveCfg = Release|x64
+		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
