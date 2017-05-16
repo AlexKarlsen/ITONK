@@ -1,0 +1,25 @@
+﻿{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "myTimer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 * * * * *"
+    },
+    {
+      "type": "blob",
+      "name": "inputBlob",
+      "path": "input/nippersposts",
+      "connection": "iotlabdev_STORAGE",
+      "direction": "in"
+    },
+    {
+      "type": "blob",
+      "name": "outputBlob",
+      "path": "outcontainer/nipperspodcast",
+      "connection": "iotlabdev_STORAGE",
+      "direction": "out"
+    }
+  ]
+}
