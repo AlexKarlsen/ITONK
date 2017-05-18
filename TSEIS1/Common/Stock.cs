@@ -5,19 +5,25 @@ using System.Collections.Generic;
 
 namespace Common
 {
-    public class Stock
+    public class StockBid
     {
+        public string Username { get; set; }
         public string StockName { get; set; }
-        public string Amount { get; set; }
+        public int Amount { get; set; }
     }
 
     [ServiceContract]
-    public interface IStockService
+    public interface IStockBidService
     {
         [OperationContract]
-        Task AddStockBid(Stock stock, string offerType);
+        void AddBid(StockBid stockBid);
+    }
+
+    [ServiceContract]
+    public interface IStockSaleService
+    {
         [OperationContract]
-        Task CompleteTransaction(Stock boughtStock, List<Stock> soldStocks);
+        Task AddSale(StockBid stockSaleOffer);
     }
 
 }

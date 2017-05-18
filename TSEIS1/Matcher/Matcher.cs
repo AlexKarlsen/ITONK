@@ -7,17 +7,32 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Common;
 
 namespace Matcher
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Matcher : StatefulService
+    internal sealed class Matcher : StatefulService, IStockBidService
     {
+        List<StockBid> Bids = new List<StockBid>();
+
         public Matcher(StatefulServiceContext context)
             : base(context)
         { }
+
+        public void AddBid(StockBid stockBid)
+        {
+            Bids.Add(stockBid);
+
+            MatchBidToSale(stockBid);
+        }
+
+        private void MatchBidToSale(StockBid stockBid)
+        {
+
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
