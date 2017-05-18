@@ -22,11 +22,15 @@ namespace Matcher
             : base(context)
         { }
 
-        public void AddBid(StockBid stockBid)
+        public Task AddBid(StockBid stockBid)
         {
             Bids.Add(stockBid);
 
             MatchBidToSale(stockBid);
+
+            // Return empty task, because interface has to return Task
+            // http://stackoverflow.com/questions/13127177/if-my-interface-must-return-task-what-is-the-best-way-to-have-a-no-operation-imp
+            return Task.FromResult<object>(null);
         }
 
         private void MatchBidToSale(StockBid stockBid)

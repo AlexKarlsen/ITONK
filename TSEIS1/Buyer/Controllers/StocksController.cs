@@ -53,6 +53,12 @@ namespace Buyer.Controllers
 
             var amount = value.Substring(lastDelimiter + 1, value.Length - (lastDelimiter + 1));
 
+            int amountInt;
+            if (int.TryParse(amount, out amountInt))
+            {
+                Buyer.AddBidOnMatchingService(username, stockname, amountInt);
+            }
+
         }
 
         // PUT api/values/5 

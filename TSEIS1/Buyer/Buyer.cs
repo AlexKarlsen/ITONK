@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.Client;
 
 namespace Buyer
 {
@@ -17,6 +18,15 @@ namespace Buyer
         public Buyer(StatelessServiceContext context)
             : base(context)
         { }
+
+        public static void AddBidOnMatchingService(string username, string stock, int amount)
+        {
+            var client = ServiceProxy.Create<Common.IStockBidService>(new Uri("fabric:/TSEIS1/Matcher"));
+            w
+            var stockbid = new Common.StockBid() { Username = username, StockName = stock, Amount = amount};
+
+            client.AddBid(stockbid);
+        }
 
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.

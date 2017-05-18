@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.ServiceModel;
 using System.Collections.Generic;
+using Microsoft.ServiceFabric.Services.Remoting;
 
 namespace Common
 {
@@ -13,10 +14,10 @@ namespace Common
     }
 
     [ServiceContract]
-    public interface IStockBidService
+    public interface IStockBidService : IService
     {
         [OperationContract]
-        void AddBid(StockBid stockBid);
+        Task AddBid(StockBid stockBid);
     }
 
     [ServiceContract]
