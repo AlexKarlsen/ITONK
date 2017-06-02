@@ -8,6 +8,7 @@ using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Common;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 
 namespace Matcher
 {
@@ -25,6 +26,8 @@ namespace Matcher
         public Task AddBid(StockBid stockBid)
         {
             Bids.Add(stockBid);
+            ServiceEventSource.Current.ServiceRequestStart("AddBid");
+            ServiceEventSource.Current.ServiceRequestStop("AddBid");
 
             MatchBidToSale(stockBid);
 
@@ -47,7 +50,11 @@ namespace Matcher
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[0];
+            return new[]
+            {
+                new ServiceReplicaListener(serviceContext => new OwinCommunicationListener(serviceContext, this, ServiceEventSource.Current, "ServiceEndpoint"))
+            };
+            //return new ServiceReplicaListener[0];
         }
 
         /// <summary>

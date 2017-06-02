@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.ServiceFabric.Services.Client;
+using System.Collections.Generic;
 using System.Fabric;
 using System.IO;
 using System.Net;
@@ -39,10 +40,12 @@ namespace Buyer.Controllers
             return "value";
         }
 
+        HttpClient _client = new HttpClient();
+
         // POST api/values 
         [System.Web.Http.HttpPost]
         [Route("api/{value}")]
-        public void Post([FromUri]string value)
+        public async void Post([FromUri]string value)
         {
             var firstDelimiter = value.IndexOf(';');
             var lastDelimiter = value.LastIndexOf(';');
@@ -56,9 +59,23 @@ namespace Buyer.Controllers
             int amountInt;
             if (int.TryParse(amount, out amountInt))
             {
-                Buyer.AddBidOnMatchingService(username, stockname, amountInt);
-            }
+                //Buyer.AddBidOnMatchingService(username, stockname, amountInt);
+                ServicePartitionResolver resolver = ServicePartitionResolver.GetDefault();
 
+                ResolvedServicePartition partition = await resolver.ResolveAsync(new System.Uri("fabric:/TSEIS1/Matcher"), new ServicePartitionKey(0), CancellationToken.None);
+
+                // Converts the partition from JSON and gets the url
+                var endpoints = Newtonsoft.Json.Linq.JObject.Parse(partition.GetEndpoint().Address)["Endpoints"];
+                var url = endpoints[""].ToString();
+                var url1 = url.Substring(0,23);
+
+                // VIrker ikke 
+
+                //string urlReverseProxy = $"http://localhost:19081/TSEIS1/Matcher/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
+                string urlReverseProxy = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
+
+                HttpResponseMessage msg = await _client.PostAsync(urlReverseProxy, null).ConfigureAwait(false);
+            }
         }
 
         // PUT api/values/5 

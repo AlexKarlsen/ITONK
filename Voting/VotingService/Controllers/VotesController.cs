@@ -10,6 +10,7 @@ using VotingService;
 using System.Fabric;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.ServiceFabric.Services.Client;
 
 public class VotesController : ApiController
 {
@@ -43,6 +44,16 @@ public class VotesController : ApiController
         Interlocked.Increment(ref _requestCount);
         string url =
         $"http://localhost:19081/Voting/VotingState/api/{key}?PartitionKey=0&PartitionKind=Int64Range";
+
+        ServicePartitionResolver resolver = ServicePartitionResolver.GetDefault();
+
+        ResolvedServicePartition partition = await resolver.ResolveAsync(new System.Uri("fabric:/Voting/VotingState"), new ServicePartitionKey(0), CancellationToken.None);
+
+        // Converts the partition from JSON and gets the url
+        var endpoints = Newtonsoft.Json.Linq.JObject.Parse(partition.GetEndpoint().Address)["Endpoints"];
+        var urlFromResolver = endpoints[""].ToString();
+
+
         HttpResponseMessage msg = await _client.PostAsync(url, null).ConfigureAwait(false);
         ServiceEventSource.Current.ServiceRequestStop("VotesController.Post", activityId);
         return Request.CreateResponse(msg.StatusCode);

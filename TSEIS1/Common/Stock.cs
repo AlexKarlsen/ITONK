@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.Collections.Generic;
 using Microsoft.ServiceFabric.Services.Remoting;
+using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace Common
 {

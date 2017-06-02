@@ -14,6 +14,10 @@
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VotingStatePkg" ServiceManifestVersion="1.0.1" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="BuyerPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
@@ -25,6 +29,11 @@
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
     <Service Name="Matcher">
       <StatefulService ServiceTypeName="MatcherType" TargetReplicaSetSize="[Matcher_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[Matcher_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="VotingState">
+      <StatefulService ServiceTypeName="VotingStateType" TargetReplicaSetSize="[Matcher_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[Matcher_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
