@@ -36,7 +36,7 @@
     <AdditionalFileItemNames>$(AdditionalFileItemNames);None</AdditionalFileItemNames>
   </PropertyGroup>
   <PropertyGroup>
-    <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
+    <IsServiceFabricServiceProject>true</IsServiceFabricServiceProject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bond, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
