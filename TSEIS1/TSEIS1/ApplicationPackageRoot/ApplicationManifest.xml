@@ -4,9 +4,6 @@
     <Parameter Name="Matcher2_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Matcher2_PartitionCount" DefaultValue="1" />
     <Parameter Name="Matcher2_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="Matcher1_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="Matcher1_PartitionCount" DefaultValue="1" />
-    <Parameter Name="Matcher1_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Matcher_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Matcher_PartitionCount" DefaultValue="1" />
     <Parameter Name="Matcher_TargetReplicaSetSize" DefaultValue="3" />
@@ -17,10 +14,6 @@
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="Matcher2Pkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="Matcher1Pkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
@@ -44,11 +37,6 @@
     <Service Name="Matcher2">
       <StatefulService ServiceTypeName="Matcher2Type" TargetReplicaSetSize="[Matcher2_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher2_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[Matcher2_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-      </StatefulService>
-    </Service>
-    <Service Name="Matcher1">
-      <StatefulService ServiceTypeName="Matcher1Type" TargetReplicaSetSize="[Matcher1_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher1_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[Matcher1_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
     <Service Name="Matcher">

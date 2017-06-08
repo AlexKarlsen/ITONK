@@ -31,7 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Buyer\Buyer.csproj" />
-    <ProjectReference Include="..\Matcher1\Matcher1.csproj" />
+    <ProjectReference Include="..\Matcher2\Matcher2.csproj" />
     <ProjectReference Include="..\Matcher\Matcher.csproj" />
     <ProjectReference Include="..\VotingState\VotingState.csproj" />
   </ItemGroup>

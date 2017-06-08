@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingState", "VotingState\VotingState.csproj", "{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matcher1", "Matcher1\Matcher1.csproj", "{08388127-7A23-47BB-BF48-E35CD1FD86A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matcher2", "Matcher2\Matcher2.csproj", "{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,12 +57,12 @@ Global
 		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Release|Any CPU.ActiveCfg = Release|x64
 		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Release|x64.ActiveCfg = Release|x64
 		{4D341C7D-811B-41AE-8EC5-5F2FDB668C35}.Release|x64.Build.0 = Release|x64
-		{08388127-7A23-47BB-BF48-E35CD1FD86A4}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{08388127-7A23-47BB-BF48-E35CD1FD86A4}.Debug|x64.ActiveCfg = Debug|x64
-		{08388127-7A23-47BB-BF48-E35CD1FD86A4}.Debug|x64.Build.0 = Debug|x64
-		{08388127-7A23-47BB-BF48-E35CD1FD86A4}.Release|Any CPU.ActiveCfg = Release|x64
-		{08388127-7A23-47BB-BF48-E35CD1FD86A4}.Release|x64.ActiveCfg = Release|x64
-		{08388127-7A23-47BB-BF48-E35CD1FD86A4}.Release|x64.Build.0 = Release|x64
+		{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}.Debug|x64.ActiveCfg = Debug|x64
+		{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}.Debug|x64.Build.0 = Debug|x64
+		{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}.Release|Any CPU.ActiveCfg = Release|x64
+		{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}.Release|x64.ActiveCfg = Release|x64
+		{9E6751C1-B65F-42FF-97F6-C3530D6B6E45}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,9 +4,6 @@
     <Parameter Name="Matcher2_PartitionCount" Value="1" />
     <Parameter Name="Matcher2_MinReplicaSetSize" Value="3" />
     <Parameter Name="Matcher2_TargetReplicaSetSize" Value="3" />
-    <Parameter Name="Matcher1_PartitionCount" Value="1" />
-    <Parameter Name="Matcher1_MinReplicaSetSize" Value="3" />
-    <Parameter Name="Matcher1_TargetReplicaSetSize" Value="3" />
     <Parameter Name="Matcher_PartitionCount" Value="1" />
     <Parameter Name="Matcher_MinReplicaSetSize" Value="3" />
     <Parameter Name="Matcher_TargetReplicaSetSize" Value="3" />
