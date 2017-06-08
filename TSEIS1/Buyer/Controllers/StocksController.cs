@@ -71,10 +71,11 @@ namespace Buyer.Controllers
 
                 // VIrker ikke 
 
-                //string urlReverseProxy = $"http://localhost:19081/TSEIS1/Matcher/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
-                string urlReverseProxy = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
-
+                string urlReverseProxy = $"http://localhost:19081/TSEIS1/Matcher1/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
                 HttpResponseMessage msg = await _client.PostAsync(urlReverseProxy, null).ConfigureAwait(false);
+
+                string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
+                HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
             }
         }
 

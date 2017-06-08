@@ -7,39 +7,17 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Common;
-using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 
-namespace Matcher
+namespace Matcher2
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class Matcher : StatefulService, IStockBidService
+    internal sealed class Matcher2 : StatefulService
     {
-        List<StockBid> Bids = new List<StockBid>();
-
-        public Matcher(StatefulServiceContext context)
+        public Matcher2(StatefulServiceContext context)
             : base(context)
         { }
-
-        public Task AddBid(StockBid stockBid)
-        {
-            Bids.Add(stockBid);
-            ServiceEventSource.Current.ServiceRequestStart("AddBid");
-            ServiceEventSource.Current.ServiceRequestStop("AddBid");
-
-            MatchBidToSale(stockBid);
-
-            // Return empty task, because interface has to return Task
-            // http://stackoverflow.com/questions/13127177/if-my-interface-must-return-task-what-is-the-best-way-to-have-a-no-operation-imp
-            return Task.FromResult<object>(null);
-        }
-
-        private void MatchBidToSale(StockBid stockBid)
-        {
-
-        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
@@ -50,11 +28,7 @@ namespace Matcher
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new[]
-            {
-                new ServiceReplicaListener(serviceContext => new OwinCommunicationListener(serviceContext, this, ServiceEventSource.Current, "ServiceEndpoint"))
-            };
-            //return new ServiceReplicaListener[0];
+            return new ServiceReplicaListener[0];
         }
 
         /// <summary>
@@ -77,7 +51,8 @@ namespace Matcher
                 {
                     var result = await myDictionary.TryGetValueAsync(tx, "Counter");
 
-                    //ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}", result.HasValue ? result.Value.ToString() : "Value does not exist.");
+                    ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
+                        result.HasValue ? result.Value.ToString() : "Value does not exist.");
 
                     await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
 
