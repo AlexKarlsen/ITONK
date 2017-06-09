@@ -48,6 +48,7 @@ namespace Buyer.Controllers
         [Route("api/{value}")]
         public async System.Threading.Tasks.Task PostAsync([FromUri]string value)
         {
+            // Decoding input
             var firstDelimiter = value.IndexOf(';');
             var lastDelimiter = value.LastIndexOf(';');
 
@@ -61,7 +62,6 @@ namespace Buyer.Controllers
 
             if (int.TryParse(amount, out amountInt))
             {
-
                 var stock = new Common.Stock() { StockName = stockname, StockType = Common.Stock.SaleOrPurchase.Purchase, Username = username, Amount = amountInt };
 
                 using (_client = new HttpClient())
@@ -108,7 +108,6 @@ namespace Buyer.Controllers
             // Validate file name.
             if ("index.html" == file)
             {
-                //string path = string.Format(@"..\VotingServicePkg.Code.1.0.0\{0}", file);
                 // Getting index.html dynamicly from fabrics runtime
                 string path = Path.Combine(FabricRuntime.GetActivationContext().GetCodePackageObject("Code").Path, "index.html");
                 response = File.ReadAllText(path);
