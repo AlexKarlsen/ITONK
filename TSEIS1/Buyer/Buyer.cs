@@ -42,7 +42,7 @@ namespace Buyer
             return binding;
         }
 
-        public static async Task AddBidOnMatchingServiceAsync(string username, string stock, int amount)
+        public static Task AddBidOnMatchingServiceAsync(string username, string stock, int amount)
         {
             //var client = ServiceProxy.Create<Common.IStockBidService>(new Uri("fabric:/TSEIS1/Matcher"));
 
@@ -63,7 +63,8 @@ namespace Buyer
             var binding = CreateClientConnectionBinding();
             var client = new Client(new WcfCommunicationClientFactory<Common.IBuyStock>(binding), serviceUri);
 
-            client.BuyStock(stockbid);
+            //client.BuyStock(stockbid);
+            return null;
         }
 
         /// <summary>

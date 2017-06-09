@@ -34,6 +34,7 @@
     <ProjectReference Include="..\Buyer\Buyer.csproj" />
     <ProjectReference Include="..\Matcher3\Matcher3.csproj" />
     <ProjectReference Include="..\Matcher\Matcher.csproj" />
+    <ProjectReference Include="..\Seller\Seller.csproj" />
     <ProjectReference Include="..\VotingState\VotingState.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

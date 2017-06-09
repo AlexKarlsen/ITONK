@@ -2,23 +2,17 @@
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="TSEIS1Type" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="Matcher3_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="Matcher2_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="Matcher2_PartitionCount" DefaultValue="1" />
-    <Parameter Name="Matcher2_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Matcher_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Matcher_PartitionCount" DefaultValue="1" />
     <Parameter Name="Matcher_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Buyer_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="Seller_InstanceCount" DefaultValue="-1" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="Matcher3Pkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="Matcher2Pkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
@@ -33,6 +27,10 @@
     <ServiceManifestRef ServiceManifestName="BuyerPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="SellerPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
   <DefaultServices>
     <!-- The section below creates instances of service types, when an instance of this 
          application type is created. You can also create one or more instances of service type using the 
@@ -43,11 +41,6 @@
       <StatelessService ServiceTypeName="Matcher3Type" InstanceCount="[Matcher3_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
-    </Service>
-    <Service Name="Matcher2">
-      <StatefulService ServiceTypeName="Matcher2Type" TargetReplicaSetSize="[Matcher2_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher2_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[Matcher2_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-      </StatefulService>
     </Service>
     <Service Name="Matcher">
       <StatefulService ServiceTypeName="MatcherType" TargetReplicaSetSize="[Matcher_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher_MinReplicaSetSize]">
@@ -61,6 +54,11 @@
     </Service>
     <Service Name="Buyer">
       <StatelessService ServiceTypeName="BuyerType" InstanceCount="[Buyer_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="Seller">
+      <StatelessService ServiceTypeName="SellerType" InstanceCount="[Seller_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>

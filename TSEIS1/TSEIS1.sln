@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingState", "VotingState\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matcher3", "Matcher3\Matcher3.csproj", "{F666B2A9-FF0B-41BE-A32A-ADC15DE41753}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seller", "Seller\Seller.csproj", "{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,12 @@ Global
 		{F666B2A9-FF0B-41BE-A32A-ADC15DE41753}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F666B2A9-FF0B-41BE-A32A-ADC15DE41753}.Release|x64.ActiveCfg = Release|Any CPU
 		{F666B2A9-FF0B-41BE-A32A-ADC15DE41753}.Release|x64.Build.0 = Release|Any CPU
+		{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}.Debug|x64.ActiveCfg = Debug|x64
+		{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}.Debug|x64.Build.0 = Debug|x64
+		{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}.Release|Any CPU.ActiveCfg = Release|x64
+		{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}.Release|x64.ActiveCfg = Release|x64
+		{A5EE3C0C-A5DF-4E1A-A73D-12ACC6E60499}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
