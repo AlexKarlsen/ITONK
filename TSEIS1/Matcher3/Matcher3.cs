@@ -22,6 +22,21 @@ namespace Matcher3
             : base(context)
         { }
 
+        // Leet stateful hack
+        private static List<Common.Stock> _stockBidList = new List<Common.Stock>();
+        private static List<Common.Stock> _stockSaleList = new List<Common.Stock>();
+
+        public static void BuyStock(Common.Stock stock)
+        {
+            _stockBidList.Add(stock);
+            
+            foreach(Common.Stock stk in _stockSaleList)
+            {
+                if (stk.StockName == stock.StockName)
+                    ServiceEventSource.Current.ServiceRequestStart("Found a match. Maybe");
+            }
+        }
+
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.
         /// </summary>

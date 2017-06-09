@@ -28,6 +28,8 @@ namespace Matcher3.Controllers
         public void Post([FromBody]Common.Stock stock)
         {
             var newstock = stock;
+
+            Matcher3.BuyStock(newstock);
         }
 
         // PUT api/values/5
