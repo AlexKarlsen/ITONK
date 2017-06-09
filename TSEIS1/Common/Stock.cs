@@ -16,19 +16,4 @@ namespace Common
         public int Amount { get; set; }
         public SaleOrPurchase StockType { get; set; }
     }
-
-    [ServiceContract]
-    public interface IStockBidService : IService
-    {
-        [OperationContract]
-        Task AddBid(Stock stockBid);
-    }
-
-    [ServiceContract]
-    public interface IStockSaleService
-    {
-        [OperationContract]
-        Task AddSale(Stock stockSaleOffer);
-    }
-
 }

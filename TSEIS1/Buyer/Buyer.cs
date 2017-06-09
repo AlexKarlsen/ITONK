@@ -6,14 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
-using Microsoft.ServiceFabric.Services.Communication.Wcf;
-using System.ServiceModel.Channels;
-using Microsoft.ServiceFabric.Services.Client;
-using Microsoft.ServiceFabric.Services.Communication.Wcf.Client;
-using Microsoft.ServiceFabric.Services.Communication.Client;
-using Common;
-using System.ServiceModel;
 
 namespace Buyer
 {

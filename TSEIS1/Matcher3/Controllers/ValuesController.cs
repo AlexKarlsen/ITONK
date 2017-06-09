@@ -13,7 +13,20 @@ namespace Matcher3.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var forSale = Matcher3.GetStocksForSale();
+            var bids = Matcher3.GetStocksBids();
+
+            var stockStrings = new List<String>();
+
+            foreach (Common.Stock stock in forSale)
+                stockStrings.Add(Newtonsoft.Json.JsonConvert.SerializeObject(stock));
+                   
+            foreach (Common.Stock stock in bids)
+                stockStrings.Add(Newtonsoft.Json.JsonConvert.SerializeObject(stock));
+            
+            return stockStrings; 
+
+            //return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5
@@ -29,7 +42,10 @@ namespace Matcher3.Controllers
         {
             var newstock = stock;
 
-            Matcher3.BuyStock(newstock);
+            if (newstock.StockType == Common.Stock.SaleOrPurchase.Purchase)
+                Matcher3.BuyStock(newstock);
+            else if (newstock.StockType == Common.Stock.SaleOrPurchase.Sale)
+                Matcher3.SellStock(newstock);
         }
 
         // PUT api/values/5

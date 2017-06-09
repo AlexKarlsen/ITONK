@@ -26,15 +26,105 @@ namespace Matcher3
         private static List<Common.Stock> _stockBidList = new List<Common.Stock>();
         private static List<Common.Stock> _stockSaleList = new List<Common.Stock>();
 
+        // Method is not thread safe
         public static void BuyStock(Common.Stock stock)
         {
-            _stockBidList.Add(stock);
-            
-            foreach(Common.Stock stk in _stockSaleList)
+            // Flag to check if the matching was successful
+            var foundMatch = false;
+
+            foreach(Common.Stock stkBeingSold in _stockSaleList)
             {
-                if (stk.StockName == stock.StockName)
-                    ServiceEventSource.Current.ServiceRequestStart("Found a match. Maybe");
+                if (stkBeingSold.StockName == stock.StockName)
+                    if (stkBeingSold.Amount == stock.Amount)
+                    {
+                        //ServiceEventSource.Current.ServiceMessage(context, "Buyer got a full match; " + stock.Username + " bought " + stock.Amount + " of " + stock.StockName + " from " + stkBeingSold.Username);
+                        _stockSaleList.Remove(stkBeingSold);
+
+                        foundMatch = true;
+                        break;
+                    }
+                    else if (stkBeingSold.Amount > stock.Amount)
+                    {
+                        //ServiceEventSource.Current.ServiceMessage(context ,"Buyer got a match in a larger sale; " + stock.Username + " bought " + stock.Amount + " of " + stock.StockName + " from " + stkBeingSold.Username);
+                        _stockSaleList.Remove(stkBeingSold);
+                        stkBeingSold.Amount -= stock.Amount;
+                        _stockSaleList.Add(stkBeingSold);
+
+                        foundMatch = true;
+                        break;
+                    }
+                    else if (stkBeingSold.Amount < stock.Amount)
+                    {
+                        //ServiceEventSource.Current.ServiceMessage(context, "Buyer got a partial match in a smaller sale; " + stock.Username + " bought " + stkBeingSold.Amount + " of " + stock.StockName + " from " + stkBeingSold.Username);
+                        _stockSaleList.Remove(stkBeingSold);
+                        stock.Amount -= stkBeingSold.Amount;
+                        // Recursively call same method to check if further matches can be found
+                        BuyStock(stock);
+
+                        foundMatch = true;
+                        break;
+                    }
             }
+
+            // Add unfulfilled bids to list to be matched later
+            if (foundMatch == false)
+                _stockBidList.Add(stock);
+        }
+
+        public static void SellStock(Common.Stock stock)
+        {
+            // Flag to check if the matching was successful
+            var foundMatch = false;
+
+            foreach (Common.Stock stkBid in _stockBidList)
+            {
+                if (stkBid.StockName == stock.StockName)
+                    if (stkBid.Amount == stock.Amount)
+                    {
+                        //ServiceEventSource.Current.ServiceMessage(context, "Seller got a full match; " + stock.Username + " sold " + stock.Amount + " of " + stock.StockName + " from " + stkBid.Username);
+                        _stockBidList.Remove(stkBid);
+
+                        foundMatch = true;
+                        break;
+                    }
+                    else if (stkBid.Amount > stock.Amount)
+                    {
+                        //ServiceEventSource.Current.ServiceMessage(context, "Seller got a match in a larger bid; " + stock.Username + " sold " + stock.Amount + " of " + stock.StockName + " from " + stkBid.Username);
+                        _stockBidList.Remove(stkBid);
+                        stkBid.Amount -= stock.Amount;
+                        _stockBidList.Add(stkBid);
+
+                        foundMatch = true;
+                        break;
+                    }
+                    else if (stkBid.Amount < stock.Amount)
+                    {
+                        //ServiceEventSource.Current.ServiceMessage(context, "Seller got a partial match in a smaller bid; " + stock.Username + " sold " + stkBid.Amount + " of " + stock.StockName + " from " + stkBid.Username);
+                        _stockBidList.Remove(stkBid);
+                        stock.Amount -= stkBid.Amount;
+                        // Recursively call same method to check if further matches can be found
+                        SellStock(stock);
+
+                        foundMatch = true;
+                        break;
+                    }
+            }
+
+            // Add unfulfilled bids to list to be matched later
+            if (foundMatch == false)
+                _stockSaleList.Add(stock);
+        }
+
+        public static List<Common.Stock> GetStocksForSale()
+        {
+            List<Common.Stock> copy = new List<Common.Stock>(_stockSaleList);
+            return copy;
+        }
+
+        public static List<Common.Stock> GetStocksBids()
+        {
+            List<Common.Stock> copy = new List<Common.Stock>(_stockBidList);
+            return copy;
         }
 
         /// <summary>

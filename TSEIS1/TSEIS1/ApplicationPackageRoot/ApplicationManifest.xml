@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="TSEIS1Type" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="VotingState_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="VotingState_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="VotingState_PartitionCount" DefaultValue="1" />
     <Parameter Name="Matcher3_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="Matcher_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="Matcher_PartitionCount" DefaultValue="1" />
-    <Parameter Name="Matcher_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="Buyer_InstanceCount" DefaultValue="-1" />
     <Parameter Name="Seller_InstanceCount" DefaultValue="-1" />
   </Parameters>
@@ -13,10 +13,6 @@
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="Matcher3Pkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="MatcherPkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
@@ -42,14 +38,9 @@
         <SingletonPartition />
       </StatelessService>
     </Service>
-    <Service Name="Matcher">
-      <StatefulService ServiceTypeName="MatcherType" TargetReplicaSetSize="[Matcher_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[Matcher_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-      </StatefulService>
-    </Service>
     <Service Name="VotingState">
-      <StatefulService ServiceTypeName="VotingStateType" TargetReplicaSetSize="[Matcher_TargetReplicaSetSize]" MinReplicaSetSize="[Matcher_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[Matcher_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      <StatefulService ServiceTypeName="VotingStateType" TargetReplicaSetSize="[VotingState_TargetReplicaSetSize]" MinReplicaSetSize="[VotingState_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[VotingState_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
     <Service Name="Buyer">

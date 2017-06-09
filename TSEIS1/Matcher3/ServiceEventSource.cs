@@ -153,6 +153,13 @@ namespace Matcher3
         {
             WriteEvent(ServiceRequestStopEventId, requestTypeName, exception);
         }
+        
+        private const int ServiceCustomMessageEventId = 7;
+        [Event(ServiceCustomMessageEventId, Level = EventLevel.Informational, Message = "Service custom msg: '{0}'", Keywords = Keywords.Requests)]
+        public void ServiceCustomMessage(string msg)
+        {
+            WriteEvent(ServiceCustomMessageEventId, msg);
+        }
         #endregion
 
         #region Private methods
