@@ -12,6 +12,10 @@ namespace Seller
             // Configure Web API for self-host. 
             HttpConfiguration config = new HttpConfiguration();
 
+            // Added two lines
+            config.MapHttpAttributeRoutes();
+            config.Formatters.Add(new HtmlMediaFormatter());
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
