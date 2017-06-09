@@ -76,7 +76,7 @@ namespace Buyer.Controllers
                     var response = await _client.PostAsync(urlReverseProxy, content);
                     HttpResponseMessage msg2 = await _client.GetAsync(urlReverseProxy);
                    
-
+                    // We successfully communicated with votingstate, however, this can't be done without all the extra stuff...
                     //string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
                     //HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
                 }
