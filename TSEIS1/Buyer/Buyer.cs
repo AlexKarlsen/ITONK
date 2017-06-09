@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Common;
+using System.Net.Http;
 
 namespace Buyer
 {
@@ -17,6 +19,26 @@ namespace Buyer
         public Buyer(StatelessServiceContext context)
             : base(context)
         { }
+
+
+        public static async Task PlaceRequestAsync(Stock stock)
+        {
+            using (var _client = new HttpClient())
+            {
+                _client.BaseAddress = new System.Uri("http://localhost:19081");
+
+                var jsonstring = Newtonsoft.Json.JsonConvert.SerializeObject(stock);
+
+                var content = new StringContent(jsonstring, System.Text.Encoding.UTF8, "application/json");
+
+                string urlReverseProxy = "/TSEIS1/Matcher3/api/values/";
+                var response = await _client.PostAsync(urlReverseProxy, content);
+
+                // We successfully communicated with votingstate, however, this can't be done without all the extra stuff...
+                //string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
+                //HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
+            }
+        }
 
         /// <summary>
         /// Optional override to create listeners (like tcp, http) for this service instance.

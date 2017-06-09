@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Web.Http;
+using Common;
+using System;
 
 namespace Buyer.Controllers
 {
@@ -21,6 +23,8 @@ namespace Buyer.Controllers
         [Route("api/stocks")]
         public List<KeyValuePair<string, int>> Get()
         {
+            // This function is implemented as a test function, just to test the access to the controller
+            // It is not required for the app, as it's only purpose is to post buy bids to the matcher.
             //return new string[] { "value1", "value2" };
 
             ServiceEventSource.Current.ServiceRequestStart("Get");
@@ -40,8 +44,6 @@ namespace Buyer.Controllers
         {
             return "value";
         }
-
-        HttpClient _client;
 
         // POST api/values 
         [System.Web.Http.HttpPost]
@@ -64,24 +66,10 @@ namespace Buyer.Controllers
             {
                 var stock = new Common.Stock() { StockName = stockname, StockType = Common.Stock.SaleOrPurchase.Purchase, Username = username, Amount = amountInt };
 
-                using (_client = new HttpClient())
-                {
-                    _client.BaseAddress = new System.Uri("http://localhost:19081");
-
-                    var jsonstring = Newtonsoft.Json.JsonConvert.SerializeObject(stock);
-
-                    var content = new StringContent(jsonstring, System.Text.Encoding.UTF8, "application/json");
-
-                    string urlReverseProxy = "/TSEIS1/Matcher3/api/values/";
-                    var response = await _client.PostAsync(urlReverseProxy, content);
-                    HttpResponseMessage msg2 = await _client.GetAsync(urlReverseProxy);
-                   
-                    // We successfully communicated with votingstate, however, this can't be done without all the extra stuff...
-                    //string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
-                    //HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
-                }
+                await Buyer.PlaceRequestAsync(stock);
             }
         }
+
 
         // PUT api/values/5 
         public void Put(int id, [FromBody]string value)
@@ -93,6 +81,7 @@ namespace Buyer.Controllers
         {
         }
 
+        // Returns the html file as UI to the web api, requires HtmlMediaFormatter.cs
         [HttpGet]
         [Route("api/index.html")]
         public HttpResponseMessage GetFile()

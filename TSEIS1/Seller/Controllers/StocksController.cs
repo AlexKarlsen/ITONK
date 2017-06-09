@@ -41,8 +41,6 @@ namespace Seller.Controllers
             return "value";
         }
 
-        HttpClient _client;
-
         // POST api/values 
         [System.Web.Http.HttpPost]
         [Route("api/{value}")]
@@ -64,22 +62,7 @@ namespace Seller.Controllers
 
                 var stock = new Common.Stock() { StockName = stockname, StockType = Common.Stock.SaleOrPurchase.Sale, Username = username, Amount = amountInt };
 
-                using (_client = new HttpClient())
-                {
-                    _client.BaseAddress = new System.Uri("http://localhost:19081");
-
-                    var jsonstring = Newtonsoft.Json.JsonConvert.SerializeObject(stock);
-
-                    var content = new StringContent(jsonstring, System.Text.Encoding.UTF8, "application/json");
-
-                    string urlReverseProxy = "/TSEIS1/Matcher3/api/values/";
-                    var response = await _client.PostAsync(urlReverseProxy, content);
-                    HttpResponseMessage msg2 = await _client.GetAsync(urlReverseProxy);
-
-                    // We successfully communicated with votingstate, however, this can't be done without all the extra stuff...
-                    //string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
-                    //HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
-                }
+                await Seller.PlaceRequestAsync(stock);
             }
         }
 
