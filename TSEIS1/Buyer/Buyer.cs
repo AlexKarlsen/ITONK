@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
+using Microsoft.ServiceFabric.Services.Communication.Wcf;
+using System.ServiceModel.Channels;
+using Microsoft.ServiceFabric.Services.Client;
+using Microsoft.ServiceFabric.Services.Communication.Wcf.Client;
+using Microsoft.ServiceFabric.Services.Communication.Client;
+using Common;
+using System.ServiceModel;
 
 namespace Buyer
 {
@@ -19,13 +26,44 @@ namespace Buyer
             : base(context)
         { }
 
-        public static void AddBidOnMatchingService(string username, string stock, int amount)
+        private static NetTcpBinding CreateClientConnectionBinding()
         {
-            var client = ServiceProxy.Create<Common.IStockBidService>(new Uri("fabric:/TSEIS1/Matcher"));
-            
-            var stockbid = new Common.StockBid() { Username = username, StockName = stock, Amount = amount};
+            NetTcpBinding binding = new NetTcpBinding(SecurityMode.None)
+            {
+                SendTimeout = TimeSpan.MaxValue,
+                ReceiveTimeout = TimeSpan.MaxValue,
+                OpenTimeout = TimeSpan.FromSeconds(5),
+                CloseTimeout = TimeSpan.FromSeconds(5),
+                MaxReceivedMessageSize = 1024 * 1024
+            };
+            binding.MaxBufferSize = (int)binding.MaxReceivedMessageSize;
+            binding.MaxBufferPoolSize = Environment.ProcessorCount * binding.MaxReceivedMessageSize;
 
-            client.AddBid(stockbid);
+            return binding;
+        }
+
+        public static async Task AddBidOnMatchingServiceAsync(string username, string stock, int amount)
+        {
+            //var client = ServiceProxy.Create<Common.IStockBidService>(new Uri("fabric:/TSEIS1/Matcher"));
+
+            //var stockbid = new Common.Stock() { Username = username, StockName = stock, Amount = amount};
+
+            //client.AddBid(stockbid);
+
+
+            var stockbid = new Common.Stock() { Username = username, StockName = stock, Amount = amount };
+            //var stockBuyer = Common.MatcherConnectionFactory.CreateBuyStock();
+            //var msg = await stockBuyer.BuyStock(stockbid);
+            //var something = "hej";
+
+
+
+            var serviceUri = new Uri("fabric:/TSEIS1/Matcher2");
+            var serviceResolver = new ServicePartitionResolver(() => new FabricClient());   // ?
+            var binding = CreateClientConnectionBinding();
+            var client = new Client(new WcfCommunicationClientFactory<Common.IBuyStock>(binding), serviceUri);
+
+            client.BuyStock(stockbid);
         }
 
         /// <summary>
@@ -40,4 +78,17 @@ namespace Buyer
             };
         }
     }
+
+    public class Client : ServicePartitionClient<WcfCommunicationClient<Common.IBuyStock>>, Common.IBuyStock
+    {
+        public Client(ICommunicationClientFactory<WcfCommunicationClient<IBuyStock>> communicationClientFactory, Uri serviceUri, ServicePartitionKey partitionKey = null, TargetReplicaSelector targetReplicaSelector = TargetReplicaSelector.Default, string listenerName = null, OperationRetrySettings retrySettings = null) : base(communicationClientFactory, serviceUri, partitionKey, targetReplicaSelector, listenerName, retrySettings)
+        {            
+        }
+
+        public Task<string> BuyStock(Stock stock)
+        {
+            return this.InvokeWithRetryAsync(client => client.Channel.BuyStock(stock));
+        }
+    }
+
 }

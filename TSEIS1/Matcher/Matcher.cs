@@ -17,13 +17,13 @@ namespace Matcher
     /// </summary>
     internal sealed class Matcher : StatefulService, IStockBidService
     {
-        List<StockBid> Bids = new List<StockBid>();
+        List<Stock> Bids = new List<Stock>();
 
         public Matcher(StatefulServiceContext context)
             : base(context)
         { }
 
-        public Task AddBid(StockBid stockBid)
+        public Task AddBid(Stock stockBid)
         {
             Bids.Add(stockBid);
             ServiceEventSource.Current.ServiceRequestStart("AddBid");
@@ -36,7 +36,7 @@ namespace Matcher
             return Task.FromResult<object>(null);
         }
 
-        private void MatchBidToSale(StockBid stockBid)
+        private void MatchBidToSale(Stock stockBid)
         {
 
         }

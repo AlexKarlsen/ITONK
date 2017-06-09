@@ -4,6 +4,7 @@ using System.Fabric;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Web.Http;
 
@@ -40,12 +41,12 @@ namespace Buyer.Controllers
             return "value";
         }
 
-        HttpClient _client = new HttpClient();
+        HttpClient _client;
 
         // POST api/values 
         [System.Web.Http.HttpPost]
         [Route("api/{value}")]
-        public async void Post([FromUri]string value)
+        public async System.Threading.Tasks.Task PostAsync([FromUri]string value)
         {
             var firstDelimiter = value.IndexOf(';');
             var lastDelimiter = value.LastIndexOf(';');
@@ -57,25 +58,28 @@ namespace Buyer.Controllers
             var amount = value.Substring(lastDelimiter + 1, value.Length - (lastDelimiter + 1));
 
             int amountInt;
+
             if (int.TryParse(amount, out amountInt))
             {
-                //Buyer.AddBidOnMatchingService(username, stockname, amountInt);
-                ServicePartitionResolver resolver = ServicePartitionResolver.GetDefault();
 
-                ResolvedServicePartition partition = await resolver.ResolveAsync(new System.Uri("fabric:/TSEIS1/Matcher"), new ServicePartitionKey(0), CancellationToken.None);
+                var stock = new Common.Stock() { StockName = stockname, StockType = Common.Stock.SaleOrPurchase.Purchase, Username = username, Amount = amountInt };
 
-                // Converts the partition from JSON and gets the url
-                var endpoints = Newtonsoft.Json.Linq.JObject.Parse(partition.GetEndpoint().Address)["Endpoints"];
-                var url = endpoints[""].ToString();
-                var url1 = url.Substring(0,23);
+                using (_client = new HttpClient())
+                {
+                    _client.BaseAddress = new System.Uri("http://localhost:19081");
 
-                // VIrker ikke 
+                    var jsonstring = Newtonsoft.Json.JsonConvert.SerializeObject(stock);
 
-                string urlReverseProxy = $"http://localhost:19081/TSEIS1/Matcher1/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
-                HttpResponseMessage msg = await _client.PostAsync(urlReverseProxy, null).ConfigureAwait(false);
+                    var content = new StringContent(jsonstring, System.Text.Encoding.UTF8, "application/json");
 
-                string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
-                HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
+                    string urlReverseProxy = "/TSEIS1/Matcher3/api/values/";
+                    var response = await _client.PostAsync(urlReverseProxy, content);
+                    HttpResponseMessage msg2 = await _client.GetAsync(urlReverseProxy);
+                   
+
+                    //string urlReverseProxy1 = $"http://localhost:19081/TSEIS1/VotingState/api/{value}?PartitionKey=0&PartitionKind=Int64Range";
+                    //HttpResponseMessage msg1 = await _client.PostAsync(urlReverseProxy1, null).ConfigureAwait(false);
+                }
             }
         }
 
